@@ -1,3 +1,0 @@
-puts "Hey there boy"
-puts "How are you doing today?"
-5.times {puts "I'm good"}
