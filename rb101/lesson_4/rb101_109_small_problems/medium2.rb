@@ -1,7 +1,6 @@
-# 1. Longest Sentence
-# Write a program that reads the content of a text file and then prints the longest sentence in the file based on number of words.
-# Sentences may end with periods (.), exclamation points (!), or question marks (?). Any sequence of characters that are not
-# spaces or sentence-ending characters should be treated as a word. You should also print the number of words in the longest
+## 1. Longest Sentence
+# Write a program that reads the content of a text file and then prints the longest sentence in the file based on number of words. Sentences may end with periods (.), exclamation points (!),
+# or question marks (?). Any sequence of characters that are not spaces or sentence-ending characters should be treated as a word. You should also print the number of words in the longest
 # sentence.
 # Example text:
 # Four score and seven years ago our fathers brought forth
@@ -35,16 +34,22 @@
 # of freedom -- and that government of the people, by
 # the people, for the people, shall not perish from the
 # earth.
+# The longest sentence in the above text is the last sentence; it is 86 words long. (Note that each -- counts as a word.)
 
-text = File.read("pg84.txt")
+# Another Example
+
+# Download the book at http://www.gutenberg.org/cache/epub/84/pg84.txt, and run your program on this file.
+
+# The longest sentence in this book is 157 words long.
+
+text = File.read("text.txt")
 
 def longest_sentence(text)
-  sentences = text.split(/\.|\?|!/)
-  max = sentences.max_by {|sentence| sentence.split.size}.strip
-  max.split.size
+  text = text.split(/[\.\?!]/)
+  text = text.map {|sentence| sentence.split.map(&:strip) }
+  max_sentence = text.max_by {|sentence| sentence.size }
+  puts "The longest sentence has #{max_sentence.size} characters"
+  puts max_sentence.join(" ")
 end
 
 longest_sentence(text)
-
-
-
