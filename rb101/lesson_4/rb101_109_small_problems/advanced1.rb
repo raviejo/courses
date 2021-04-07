@@ -221,3 +221,266 @@ def transpose(matrix)
   end
   new_matrix
 end
+
+## 5. Rotating Matrices
+# As we saw in the previous exercises, a matrix can be represented in ruby by an Array of Arrays. For example:
+# 1  5  8
+# 4  7  2
+# 3  9  6
+# can be described by the Array of Arrays:
+# matrix = [
+#   [1, 5, 8],
+#   [4, 7, 2],
+#   [3, 9, 6]
+# ]
+# A 90-degree rotation of a matrix produces a new matrix in which each side of the matrix is rotated clockwise by
+# 90 degrees. For example, the 90-degree rotation of the matrix shown above is:
+# 3  4  1
+# 9  7  5
+# 6  2  8
+# A 90 degree rotation of a non-square matrix is similar. For example, the rotation of:
+# 3  4  1
+# 9  7  5
+# is:
+# 9  3
+# 7  4
+# 5  1
+# Write a method that takes an arbitrary matrix and rotates it 90 degrees clockwise as shown above.
+# Examples:
+# matrix1 = [
+#   [1, 5, 8],
+#   [4, 7, 2],
+#   [3, 9, 6]
+# ]
+
+# matrix2 = [
+#   [3, 7, 4, 2],
+#   [5, 1, 0, 8]
+# ]
+
+# new_matrix1 = rotate90(matrix1)
+# new_matrix2 = rotate90(matrix2)
+# new_matrix3 = rotate90(rotate90(rotate90(rotate90(matrix2))))
+
+# p new_matrix1 == [[3, 4, 1], [9, 7, 5], [6, 2, 8]]
+# p new_matrix2 == [[5, 3], [1, 7], [0, 4], [8, 2]]
+# p new_matrix3 == matrix2
+
+matrix = [
+  [1, 5, 8],
+  [4, 7, 2],
+  [3, 9, 6]
+]
+
+matrix = [
+  [3, 9, 6],
+  [4, 7, 2],
+  [1, 5, 8]
+]
+
+def rotate90(matrix)
+  new_matrix = []
+  iterations = matrix.map(&:size).max
+  iterations.times do |i|
+    row = []
+    matrix.size.times do |n|
+      row << matrix.reverse[n][i]
+    end
+    new_matrix << row
+  end
+  new_matrix
+end
+
+# Further Exploration
+def rotate_matrix(matrix, degrees)
+  rotations = degrees / 90
+  new_matrix = matrix
+  rotations.times {new_matrix = rotate90(new_matrix)}
+  new_matrix
+end
+
+## 6. Fix the Bug
+# The following code:
+
+# def my_method(array)
+#   if array.empty?
+#     []
+#   elsif
+#     array.map do |value|
+#       value * value
+#     end
+#   else
+#     [7 * array.first]
+#   end
+# end
+
+# p my_method([])
+# p my_method([3])
+# p my_method([3, 4])
+# p my_method([5, 6, 7])
+
+# is expected to print:
+# []
+# [21]
+# [9, 16]
+# [25, 36, 49]
+# However, it does not. Obviously, there is a bug. Find and fix the bug, then explain why the buggy program printed the results it did.
+
+def my_method(array)
+  if array.empty?
+    []
+  elsif array.size > 1
+    array.map do |value|
+      value * value
+    end
+  else
+    [7 * array.first]
+  end
+end
+
+p my_method([])         # => [] 
+p my_method([3])        # => [21]
+p my_method([3, 4])     # => [9, 16]
+p my_method([5, 6, 7])  # => [25, 36, 49]
+
+## 7. Merge Sorted Lists
+# Problem:
+# Write a method that takes two sorted Arrays as arguments, and returns a new Array that contains all elements from both arguments in sorted order.
+# You may not provide any solution that requires you to sort the result array. You must build the result array one element at a time in the proper order.
+# Your solution should not mutate the input arrays.
+# Examples:
+merge([1, 5, 9], [2, 6, 8]) == [1, 2, 5, 6, 8, 9]
+merge([1, 1, 3], [2, 2]) == [1, 1, 2, 2, 3]
+merge([], [1, 4, 5]) == [1, 4, 5]
+merge([1, 4, 5], []) == [1, 4, 5]
+
+# Problem
+# - input: two integer arrays
+# - output: one integer array
+# - input arrays are sorted lowest to highest
+# - output array needs to be sorted lowest to highest
+# - output must include all elements of both arrays, even duplicates
+
+# Examples
+# merge([1, 5, 9], [2, 6, 8]) == [1, 2, 5, 6, 8, 9]
+# merge([1, 1, 3], [2, 2]) == [1, 1, 2, 2, 3]
+# merge([], [1, 4, 5]) == [1, 4, 5]
+# merge([1, 4, 5], []) == [1, 4, 5]
+
+# - input arrays can be of different sizes
+# - if the first input array is empty, the output should be the second output array, and vice versa
+
+# Data Structure
+# - arrays
+# - integers
+# - booleans (comparison)
+
+# merge([1, 4, 5], [2, 2]) == [1, 1, 4, 5]
+
+# merge([2, 2], [1, 1, 3])
+
+# - create an empty results array
+# - look at each element of ary1
+#   - if results is empty
+#     - add the first element to results array
+#   - else
+#     - look at each element of ary2 in reverse order
+#       - add each element before results unless it is larger than the first element
+#       - if it is larger add the ary1 element and the ary2 element to the end of results
+
+def merge(ary1, ary2)
+  results = []
+  ary2_idx = 0
+  return ary2 if ary1.empty?
+  ary1.each do |ary1_elt|
+    ary2.size.times do |idx|
+      next if idx != ary2_idx
+      if ary2[idx] < ary1_elt
+        results << ary2[idx]
+        ary2_idx = idx + 1
+      end
+    end
+    results << ary1_elt
+  end
+  results
+end
+
+merge([1, 5, 9], [2, 6, 8]) == [1, 2, 5, 6, 8, 9]
+merge([1, 1, 3], [2, 2]) == [1, 1, 2, 2, 3]
+merge([], [1, 4, 5]) == [1, 4, 5]
+merge([1, 4, 5], []) == [1, 4, 5]
+
+def merge(ary1, ary2)
+  results = []
+  idx_start = 0
+  return ary2 if ary1.empty?
+  ary1.each do |ary1_elt|
+    ary2[idx_start..-1].each do |ary2_elt|
+      if ary2_elt < ary1_elt
+        results << ary2_elt
+        idx_start += 1
+      end
+    end
+    results << ary1_elt
+  end
+  results
+end
+
+## 8. Merge Sort
+# Sort an array of passed in values using merge sort. You can assume that this array may contain only one type of data. And that data may be either all numbers or all strings.
+# Merge sort is a recursive sorting algorithm that works by breaking down the array elements into nested sub-arrays, then recombining those nested sub-arrays in sorted order.
+# It is best shown by example. For instance, let's merge sort the array [9,5,7,1]. Breaking this down into nested sub-arrays, we get:
+# [9, 5, 7, 1] ->
+# [[9, 5], [7, 1]] ->
+# [[[9], [5]], [[7], [1]]]
+
+# We then work our way back to a flat array by merging each pair of nested sub-arrays:
+# [[[9], [5]], [[7], [1]]] ->
+# [[5, 9], [1, 7]] ->
+# [1, 5, 7, 9]
+
+# Examples:
+# merge_sort([9, 5, 7, 1]) == [1, 5, 7, 9]
+# merge_sort([5, 3]) == [3, 5]
+# merge_sort([6, 2, 7, 1, 4]) == [1, 2, 4, 6, 7]
+# merge_sort(%w(Sue Pete Alice Tyler Rachel Kim Bonnie)) == %w(Alice Bonnie Kim Pete Rachel Sue Tyler)
+# merge_sort([7, 3, 9, 15, 23, 1, 6, 51, 22, 37, 54, 43, 5, 25, 35, 18, 46]) == [1, 3, 5, 6, 7, 9, 15, 18, 22, 23, 25, 35, 37, 43, 46, 51, 54]
+
+[6, 2, 7, 1, 4]
+[ [6, 2, 7], [1, 4] ]
+[ [[6, 2], [7]], [[1], [4]] ]
+[ [[[6], [2]], [7]], [[1], [4]] ]
+[ [[2, 6], [7]], [[1, 4]] ]
+[ [2, 6, 7], [1, 4] ]
+
+def merge(ary1, ary2)
+  results = []
+  idx_start = 0
+  return ary2 if ary1.empty?
+  ary1.each do |ary1_elt|
+    ary2[idx_start..-1].each do |ary2_elt|
+      if ary2_elt < ary1_elt
+        results << ary2_elt
+        idx_start += 1
+      end
+    end
+    results << ary1_elt
+  end
+  results
+end
+
+# - find the midpoint of the array (round down)
+# - split the array into two arrays, a and b, nested in an new array
+# - keep splitting a and b until there's only one item left in each
+# - call merge on a and b
+
+def merge_sort(ary)
+  result = []
+  midpoint = (ary.size / 2).round
+  if ary.size == 1
+    ary
+  else
+    result = [[ary[0...midpoint], ary[midpoint..-1]]]
+    merge_sort(ary1)
+  result
+end
