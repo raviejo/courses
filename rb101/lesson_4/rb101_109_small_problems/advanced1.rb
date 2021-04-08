@@ -440,11 +440,11 @@ end
 # [1, 5, 7, 9]
 
 # Examples:
-# merge_sort([9, 5, 7, 1]) == [1, 5, 7, 9]
-# merge_sort([5, 3]) == [3, 5]
-# merge_sort([6, 2, 7, 1, 4]) == [1, 2, 4, 6, 7]
-# merge_sort(%w(Sue Pete Alice Tyler Rachel Kim Bonnie)) == %w(Alice Bonnie Kim Pete Rachel Sue Tyler)
-# merge_sort([7, 3, 9, 15, 23, 1, 6, 51, 22, 37, 54, 43, 5, 25, 35, 18, 46]) == [1, 3, 5, 6, 7, 9, 15, 18, 22, 23, 25, 35, 37, 43, 46, 51, 54]
+merge_sort([9, 5, 7, 1]) == [1, 5, 7, 9]
+merge_sort([5, 3]) == [3, 5]
+merge_sort([6, 2, 7, 1, 4]) == [1, 2, 4, 6, 7]
+merge_sort(%w(Sue Pete Alice Tyler Rachel Kim Bonnie)) == %w(Alice Bonnie Kim Pete Rachel Sue Tyler)
+merge_sort([7, 3, 9, 15, 23, 1, 6, 51, 22, 37, 54, 43, 5, 25, 35, 18, 46]) == [1, 3, 5, 6, 7, 9, 15, 18, 22, 23, 25, 35, 37, 43, 46, 51, 54]
 
 [6, 2, 7, 1, 4]
 [ [6, 2, 7], [1, 4] ]
@@ -466,7 +466,56 @@ def merge(ary1, ary2)
     end
     results << ary1_elt
   end
-  results
+  results.concat(ary2[idx_start..-1])
+end
+
+def merge(array1, array2)
+  index2 = 0
+  result = []
+
+  array1.each do |value|
+    while index2 < array2.size && array2[index2] <= value
+      result << array2[index2]
+      index2 += 1
+    end
+    result << value
+  end
+
+  result.concat(array2[index2..-1])
+end
+
+
+
+def merge(ary1, ary2)
+  result = []
+  ary1_idx, ary2_idx, result_idx = 0, 0, 0
+  while (ary1_idx < ary1.size && ary2_idx < ary2.size)
+    if ary1[ary1_idx] < ary2[ary2_idx]
+      result[result_idx] = ary1[ary1_idx]
+      ary1_idx += 1
+      result_idx += 1
+    else
+      result[result_idx] = ary2[ary2_idx]
+      ary2_idx += 1
+      result_idx += 1
+    end
+  end
+  result.concat(ary1[ary1_idx..-1]) if ary1_idx <= ary1.size
+  result.concat(ary2[ary2_idx..-1]) if ary2_idx <= ary2.size
+end
+
+def merge(ary1, ary2)
+  result = []
+  ary2_idx = 0
+  ary1.each do |ary1_elt|
+    while (ary2_idx < ary2.size && ary2[ary2_idx] < ary1_elt)
+      result << ary2[ary2_idx]
+      ary2_idx += 1
+    end
+    result << ary1_elt
+  end
+  
+  result.concat(ary2[ary2_idx..-1])
 end
 
 # - find the midpoint of the array (round down)
@@ -475,12 +524,31 @@ end
 # - call merge on a and b
 
 def merge_sort(ary)
-  result = []
-  midpoint = (ary.size / 2).round
-  if ary.size == 1
-    ary
+  if ary.size > 1
+    mid = ary.size / 2
+    left, right = ary[0...mid], ary[mid..-1]
+    left, right = merge_sort(left), merge_sort(right)
+    merge(left, right)
   else
-    result = [[ary[0...midpoint], ary[midpoint..-1]]]
-    merge_sort(ary1)
+    ary
+  end
+end
+
+merge([1, 5, 9], [2, 6, 8]) == [1, 2, 5, 6, 8, 9]
+merge([1, 1, 3], [2, 2]) == [1, 1, 2, 2, 3]
+merge([], [1, 4, 5]) == [1, 4, 5]
+merge([1, 4, 5], []) == [1, 4, 5]
+
+## Further Exploration
+# Make merge sort non recursive
+
+def merge_sort(ary)
+  result = []
+  ary.each do |elt|
+    result = merge(result, [elt])
+  end
   result
 end
+
+[6, 2, 7, 1, 4]
+
