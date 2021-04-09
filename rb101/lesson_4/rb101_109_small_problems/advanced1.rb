@@ -1,4 +1,4 @@
-## Easy Problem Just For Fun
+21## Easy Problem Just For Fun
 
 def anagrams(words)
   anagrams = []
@@ -552,3 +552,77 @@ end
 
 [6, 2, 7, 1, 4]
 
+## 9. Egyptian Fractions
+# A Rational Number is any number that can be represented as the result of the division between two integers, e.g., 1/3, 3/2, 22/7, etc. The number to the left is called the numerator, and the number to the
+# right is called the denominator.
+# A Unit Fraction is a rational number where the numerator is 1.
+# An Egyptian Fraction is the sum of a series of distinct unit fractions (no two are the same), such as:
+
+# 1   1    1    1
+# - + - + -- + --
+# 2   3   13   15
+# Every positive rational number can be written as an Egyptian fraction. For example:
+
+#     1   1   1   1
+# 2 = - + - + - + -
+#     1   2   3   6
+# Write two methods: one that takes a Rational number as an argument, and returns an Array of the denominators that are part of an Egyptian Fraction representation of the number, and another that takes an
+# Array of numbers in the same format, and calculates the resulting Rational number. You will need to use the Rational class provided by Ruby.
+
+# Examples:
+# egyptian(Rational(2, 1))    # -> [1, 2, 3, 6]
+# egyptian(Rational(137, 60)) # -> [1, 2, 3, 4, 5]
+# egyptian(Rational(3, 1))    # -> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 230, 57960]
+
+# unegyptian(egyptian(Rational(1, 2))) == Rational(1, 2)
+# unegyptian(egyptian(Rational(3, 4))) == Rational(3, 4)
+# unegyptian(egyptian(Rational(39, 20))) == Rational(39, 20)
+# unegyptian(egyptian(Rational(127, 130))) == Rational(127, 130)
+# unegyptian(egyptian(Rational(5, 7))) == Rational(5, 7)
+# unegyptian(egyptian(Rational(1, 1))) == Rational(1, 1)
+# unegyptian(egyptian(Rational(2, 1))) == Rational(2, 1)
+# unegyptian(egyptian(Rational(3, 1))) == Rational(3, 1)
+
+# - Create a results array
+# - Divide the Denominator by the Numerator and round up
+#   - Store the result, call it denom
+#   - Add denom to results
+# - Subtract 1/denom from Rational
+#   - Store the result, call it remainder
+#   - if the numerator of remainder == 1
+#     - add the remainder of the denominator to results
+#   - otherwise, repeat these steps until the remainder == 1
+# - Return results
+
+def egyptian(rational)
+  results = []
+  denom = (Rational(rational.denominator, rational.numerator).to_f * 10).ceil
+  results << denom
+  remainder = rational - Rational(1, denom)
+  until remainder.numerator == 1
+    denom = (Rational(remainder.denominator, remainder.numerator).to_f * 10).ceil
+    denom += 1 if results.include?(denom)
+    results << denom
+    remainder = remainder - Rational(1, denom)
+  end
+  results
+end
+
+# => 7/2 
+# => 7/2 = 1/2 + 3
+# => 7/2 = 1/2 + 1/1 + 1/4 + 1/6 + 1/8
+
+def egyptian(rational)
+  result = []
+  n = 1
+  remainder = rational
+  until rational == 0
+    unit_fraction = Rational(1,n)
+    if unit_fraction <= rational
+      rational -= unit_fraction
+      result << n
+    end
+    n += 1
+  end
+  result
+end
