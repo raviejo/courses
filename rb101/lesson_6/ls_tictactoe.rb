@@ -3,25 +3,25 @@ require 'pry'
 INITIAL_MARKER = " "
 PLAYER_MARKER = "X"
 COMPUTER_MARKER = "O"
-# WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
-#                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
-#                 [[1, 5, 9], [3, 5, 7]]              # diagonals
-WINNING_LINES = [[1, 2, 3], [2, 3, 4], [3, 4, 5]] +           # rows
-                [[6, 7, 8], [7, 8, 9], [8, 9, 10]] +          # rows
-                [[11, 12, 13], [12, 13, 14], [13, 14, 15]] +  # rows
-                [[16, 17, 18], [17, 18, 19], [18, 19, 20]] +  # rows
-                [[21, 22, 23], [22, 23, 24], [23, 24, 25]] +  # rows
-                [[1, 6, 11], [6, 11, 16], [11, 16, 21]] +     # cols
-                [[2, 7, 12], [7, 12, 17], [12, 17, 22]] +     # cols
-                [[3, 8, 13], [8, 13, 18], [13, 18, 23]] +     # cols
-                [[4, 9, 14], [9, 14, 19], [14, 19, 24]] +     # cols
-                [[5, 10, 15], [10, 15, 20], [15, 20, 25]] +   # cols
-                [[1, 7, 13], [7, 13, 19], [13, 19, 25]] +     # diagonals
-                [[2, 8, 14], [8, 14, 20], [3, 9, 15]] +       # diagonals
-                [[6, 12, 18], [12, 18, 24], [11, 17, 23]] +   # diagonals
-                [[5, 9, 13], [9, 13, 17], [13, 17, 21]] +     # diagonals
-                [[4, 8, 12], [8, 12, 16], [3, 7, 11]] +       # diagonals
-                [[10, 14, 18], [14, 18, 22], [15, 19, 23]]    # diagonals
+WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
+                [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
+                [[1, 5, 9], [3, 5, 7]]              # diagonals
+# WINNING_LINES = [[1, 2, 3], [2, 3, 4], [3, 4, 5]] +           # rows
+#                 [[6, 7, 8], [7, 8, 9], [8, 9, 10]] +          # rows
+#                 [[11, 12, 13], [12, 13, 14], [13, 14, 15]] +  # rows
+#                 [[16, 17, 18], [17, 18, 19], [18, 19, 20]] +  # rows
+#                 [[21, 22, 23], [22, 23, 24], [23, 24, 25]] +  # rows
+#                 [[1, 6, 11], [6, 11, 16], [11, 16, 21]] +     # cols
+#                 [[2, 7, 12], [7, 12, 17], [12, 17, 22]] +     # cols
+#                 [[3, 8, 13], [8, 13, 18], [13, 18, 23]] +     # cols
+#                 [[4, 9, 14], [9, 14, 19], [14, 19, 24]] +     # cols
+#                 [[5, 10, 15], [10, 15, 20], [15, 20, 25]] +   # cols
+#                 [[1, 7, 13], [7, 13, 19], [13, 19, 25]] +     # diagonals
+#                 [[2, 8, 14], [8, 14, 20], [3, 9, 15]] +       # diagonals
+#                 [[6, 12, 18], [12, 18, 24], [11, 17, 23]] +   # diagonals
+#                 [[5, 9, 13], [9, 13, 17], [13, 17, 21]] +     # diagonals
+#                 [[4, 8, 12], [8, 12, 16], [3, 7, 11]] +       # diagonals
+#                 [[10, 14, 18], [14, 18, 22], [15, 19, 23]]    # diagonals
 INFINITY = Float::INFINITY
 
 def prompt(msg)
@@ -29,47 +29,47 @@ def prompt(msg)
 end
 
 # rubocop:disable Metrics/AbcSize
-# def display_board(brd)
-#   puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}"
-#   puts ""
-#   puts "     |     |"
-#   puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}"
-#   puts "     |     |"
-#   puts "-----+-----+-----"
-#   puts "     |     |"
-#   puts "  #{brd[4]}  |  #{brd[5]}  |  #{brd[6]}"
-#   puts "     |     |"
-#   puts "-----+-----+-----"
-#   puts "     |     |"
-#   puts "  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}"
-#   puts "     |     |"
-#   puts ""
-# end
-
 def display_board(brd)
   puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}"
   puts ""
-  puts "     |     |     |     |"
-  puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}  |  #{brd[4]}  |  #{brd[5]}"
-  puts "     |     |     |     |"
-  puts "-----+-----+-----+-----+-----"
-  puts "     |     |     |     |"
-  puts "  #{brd[6]}  |  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}  |  #{brd[10]}"
-  puts "     |     |     |     |"
-  puts "-----+-----+-----+-----+-----"
-  puts "     |     |     |     |"
-  puts "  #{brd[11]}  |  #{brd[12]}  |  #{brd[13]}  |  #{brd[14]}  |  #{brd[15]}"
-  puts "     |     |     |     |"
-  puts "-----+-----+-----+-----+-----"
-  puts "     |     |     |     |"
-  puts "  #{brd[16]}  |  #{brd[17]}  |  #{brd[18]}  |  #{brd[19]}  |  #{brd[20]}"
-  puts "     |     |     |     |"
-  puts "-----+-----+-----+-----+-----"
-  puts "     |     |     |     |"
-  puts "  #{brd[21]}  |  #{brd[22]}  |  #{brd[23]}  |  #{brd[24]}  |  #{brd[25]}"
-  puts "     |     |     |     |"
+  puts "     |     |"
+  puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}"
+  puts "     |     |"
+  puts "-----+-----+-----"
+  puts "     |     |"
+  puts "  #{brd[4]}  |  #{brd[5]}  |  #{brd[6]}"
+  puts "     |     |"
+  puts "-----+-----+-----"
+  puts "     |     |"
+  puts "  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}"
+  puts "     |     |"
   puts ""
 end
+
+# def display_board(brd)
+#   puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}"
+#   puts ""
+#   puts "     |     |     |     |"
+#   puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}  |  #{brd[4]}  |  #{brd[5]}"
+#   puts "     |     |     |     |"
+#   puts "-----+-----+-----+-----+-----"
+#   puts "     |     |     |     |"
+#   puts "  #{brd[6]}  |  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}  |  #{brd[10]}"
+#   puts "     |     |     |     |"
+#   puts "-----+-----+-----+-----+-----"
+#   puts "     |     |     |     |"
+#   puts "  #{brd[11]}  |  #{brd[12]}  |  #{brd[13]}  |  #{brd[14]}  |  #{brd[15]}"
+#   puts "     |     |     |     |"
+#   puts "-----+-----+-----+-----+-----"
+#   puts "     |     |     |     |"
+#   puts "  #{brd[16]}  |  #{brd[17]}  |  #{brd[18]}  |  #{brd[19]}  |  #{brd[20]}"
+#   puts "     |     |     |     |"
+#   puts "-----+-----+-----+-----+-----"
+#   puts "     |     |     |     |"
+#   puts "  #{brd[21]}  |  #{brd[22]}  |  #{brd[23]}  |  #{brd[24]}  |  #{brd[25]}"
+#   puts "     |     |     |     |"
+#   puts ""
+# end
 # rubocop:enable Metrics/AbcSize
 
 # def initialize_board
@@ -80,7 +80,7 @@ end
 
 def initialize_board
   new_board = {}
-  (1..25).each { |num| new_board[num] = INITIAL_MARKER }
+  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
   new_board
 end
 
