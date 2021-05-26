@@ -173,9 +173,6 @@ Constraints: 10 ≤ n ≤ 1000000.
 
 [output] an integer
 =end
-p delete_digit(152) == 52
-p delete_digit(1001) == 101
-p delete_digit(10) == 1
 
 # Algorithm
 # - Split up each number into a collection of its digits
@@ -225,8 +222,6 @@ p delete_digit(10) == 1
 
 # find all pairs
 
-find_pairs(["1", "2", "3"]) == [["1", "2"], ["1, 3"], ["2, 3"]]
-
 # Algo
 # - Iterate through each element of the collection
 #   - Keep tabs on the first of the collection
@@ -256,4 +251,14 @@ def find_pairs(collection)
   results
 end
 
-find_pairs(["1", "2", "3"]) == [["1", "2"], ["1", "3"], ["2", "3"]]
+p find_pairs(["1", "2", "3"]) == [["1", "2"], ["1", "3"], ["2", "3"]]
+
+p ([{ a: 'ant', b: 'elephant' }, { c: 'cat' }].select do |hash|
+  hash.all? do |key, value|
+    value[0] == key.to_s
+  end
+end)
+# => [{ :c => "cat" }]
+
+ary1 = ["axe"]
+p ary1.partition {|str| str.size > 3}
