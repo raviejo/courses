@@ -16,15 +16,15 @@ end
 # sparky.speak("Arf!")
 
 bob = HumanBeing.new
-bob.speak("Hello!")
+# bob.speak("Hello!")
 
 # Ancestors
 # Method lookup chain
 # puts "---GoodDog ancestors---"
 # puts GoodDog.ancestors
-puts ''
-puts "---HumanBeing ancestors---"
-puts HumanBeing.ancestors
+# puts ''
+# puts "---HumanBeing ancestors---"
+# puts HumanBeing.ancestors
 
 # How do we create an object in Ruby?
 # Give an example of the creation of an object.
@@ -58,19 +58,74 @@ end
 
 iphone = CellPhone.new
 
-iphone.call('617 710 1631')
+# iphone.call('617 710 1631')
 
 # ---------------------------------------
 
+# class GoodDog
+#   attr_accessor :name
+
+#   def initialize(name)
+#     @name = name
+#   end
+  
+#   def name
+#     @name
+#   end
+
+#   def name=(name)
+#     @name = name
+#   end
+
+#   def speak
+#     "#{@name} says arf!"
+#   end
+# end
+
+# milo = GoodDog.new("Milo")
+# puts milo.speak
+# puts milo.name
+# milo.name = "Milardo"
+# puts milo.name
+
 class GoodDog
+  attr_reader :name
+  attr_accessor :height, :weight, :playful
+
   def initialize(name)
     @name = name
   end
   
   def speak
-    "Arf!"
+    "#{name} says arf!"
+  end
+
+  def change_info(h, w, pl)
+    self.height = h
+    self.weight = w
+    self.playful = pl
+  end
+
+  def info
+    puts "#{self.name} weighs #{self.weight} and is #{self.height} tall"
   end
 end
 
+# Instantiate a GoodDog object called `milo`
 milo = GoodDog.new("Milo")
+
+# Set it's state
+milo.height = "25 inches"
+milo.weight = "45 lbs"
+
+# GoodDog class state attributes
+puts milo.name
+puts milo.height
+puts milo.weight
+
+# GoodDog class behavior methods
 puts milo.speak
+
+# Set all attributes at once
+milo.change_info("26 inches", "43 lbs", true)
+milo.info
