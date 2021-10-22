@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+
+ruby '2.3.1'
+gem 'sinatra'
+gem 'erubis'
+gem 'rack'
+gem 'rake', '~>10.4.0'
