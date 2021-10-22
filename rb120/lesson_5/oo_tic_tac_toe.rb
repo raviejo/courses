@@ -14,7 +14,7 @@ module TTTGameRB120
     end
 
     def []=(num, marker)
-      @squares[num].marker = marker∑
+      @squares[num].marker = marker
     end
 
     def unmarked_keys

@@ -273,7 +273,6 @@ class Game
     if @player.stay
       prompt("#{@player.name} stays!")
       clear_and_show_cards
-      break
     else
       @player.hit
       prompt("#{@player.name} hits!")
