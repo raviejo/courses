@@ -23,7 +23,7 @@ class SimpleLinkedList
   end
 
   def push(datum)
-    empty? ? @head = Element.new(datum) : @head = Element.new(datum, @head)
+    @head = Element.new(datum, @head)
   end
 
   def tail
@@ -31,14 +31,9 @@ class SimpleLinkedList
   end
 
   def pop
-    current = @head
-    if !empty?
-      popped = @head.datum
-      @head = @head.next
-      popped
-    else
-      current
-    end
+    popped = @head.datum
+    @head = @head.next
+    popped
   end
 
   def size
