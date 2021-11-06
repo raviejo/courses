@@ -32,7 +32,6 @@ function server () {
       echo -ne "HTTP/1.1 400 Bad Request\r\n\r\n"; echo "Content-Length=0"
     fi
   done
-    
 }
 
 coproc SERVER_PROCESS { server; }
