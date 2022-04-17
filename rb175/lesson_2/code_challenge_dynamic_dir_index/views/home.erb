@@ -1,0 +1,21 @@
+<html>
+  <head>
+  </head>
+
+  <body>
+    <h1>Code Challenge: Dynamic Directory Index<h1>
+    <h4>Files:</h4>
+    <% if params["sort"] == "asc" %>
+      <a href="?sort=desc" >Sort ascending</a>
+    <% else %>
+      <a href="?sort=asc">Sort descending</a>
+    <% end %>
+    <ul>
+      <% @files.each do |file| %>
+      <li>
+        <a href="<%= file %>"><%= file %></a>
+      </li>
+      <% end %>
+    </ul>
+  </body>
+<html>

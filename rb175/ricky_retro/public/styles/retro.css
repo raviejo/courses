@@ -1,0 +1,218 @@
+body {
+  background-color: whitesmoke;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin: 1em;
+}
+
+#retro-page {
+  display: grid;
+  text-align: center;
+  width: 100%;
+  grid-template-areas:
+    "header"
+    "nav"
+    "main";
+}
+
+header {
+  background-color: white;
+  border-bottom: gainsboro solid 2px;
+  grid-area: header;
+  height: 50px;
+  display: flex;
+}
+
+.logo {
+  flex: 1 20%;
+  display: flex;
+}
+
+.logo img {
+  height: 80%;
+  width: auto;
+  align-self: flex-start;
+  margin-top: 2%;
+}
+
+.retroname {
+  flex: 2 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.retroname h3 {
+  font-family: "Pushster", cursive;
+}
+
+.username {
+  flex: 1 20%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5%;
+  padding-right: 2%;
+}
+
+.username img {
+  height: 80%;
+  width: auto;
+}
+
+nav {
+  background-color: white;
+  height: 50px;
+  grid-area: nav;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search {
+  flex: 2 60%;
+}
+
+.search {
+  border-top-style: hidden;
+}
+
+.search form input {
+  width: 95%;
+  height: 40px;
+  border: hidden;
+}
+
+.search form input:focus {
+  outline: none;
+}
+
+.sort {
+  flex: 1 20%;
+}
+
+.sort button {
+  background-color: transparent;
+  border: none;
+  border-radius: 2px;
+}
+
+.sort button::after,
+.add-item button::after {
+  content: "";
+  display: inline-block;
+  background: url("/dropdown.png");
+  height: 10px;
+  width: 10px;
+  background-size: 10px 10px;
+  margin-left: 1em;
+}
+
+.add-item {
+  flex: 1 20%;
+}
+
+.add-item button {
+  background-color: orangered;
+  height: 35px;
+  min-width: 25%;
+  color: white;
+  text-align: left;
+  padding-left: 10px;
+  border: none;
+  border-radius: 2px;
+}
+
+main {
+  grid-area: main;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 100%;
+  height: auto;
+  gap: 5%;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+.card {
+  flex: 20%;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.header {
+  grid-row: 1 / span 2;
+}
+
+.card form.section {
+  width: 100%;
+}
+
+button.add {
+  text-align: center;
+  width: 97%;
+  height: 30px;
+  background: gainsboro;
+  border: transparent;
+  border-radius: 3px;
+}
+
+.feedback {
+  grid-row: auto;
+  text-align: left;
+  border-radius: 5px;
+  background-color: rebeccapurple;
+  padding: 2px 5px;
+}
+
+.feedback form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.feedback p {
+  color: white;
+  font-size: 15px;
+}
+
+button.vote img {
+  width: 20px;
+}
+
+button.vote {
+  background: transparent;
+  border: none;
+}
+
+.card {
+  gap: 1em;
+}
+
+.card p {
+  padding-left: 5px;
+}
+
+.header p {
+  display: flex;
+  gap: 5%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.header p::before {
+  content: "";
+  display: block;
+  height: 15px;
+  width: 15px;
+  border-radius: 3px;
+}
+
+.went-well .header p::before {
+  background: forestgreen;
+}
+.to-improve .header p::before {
+  background: red;
+}
+.action-items .header p::before {
+  background: rebeccapurple;
+}

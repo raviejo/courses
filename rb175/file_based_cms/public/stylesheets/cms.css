@@ -1,0 +1,23 @@
+body {
+  padding: 1em;
+  font-family: sans-serif;
+}
+
+.message {
+  padding: 10px;
+  background-color: #FFFF99;
+}
+
+form.inline {
+  display: inline;
+}
+
+form.inline > button {
+  background-color: transparent;
+  border-color: transparent;
+  text-decoration: underline;
+  padding: 0;
+  border-width: 0;
+  border-style: none;
+  font-size: inherit;
+}

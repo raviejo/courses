@@ -1,0 +1,160 @@
+#! /usr/bin/env ruby
+
+require "pg"
+require "io/console"
+
+class CLI
+
+  def initialize
+    self.app = ExpenseData.new
+  end
+
+  def run(argv)
+    self.argv = argv 
+    parse_argv
+    if list?
+      app.list_expenses
+    elsif add?
+      amount = arguments[0]
+      memo = arguments[1]
+      abort "You must provide and amout and memo." unless amount && memo
+      app.add_expense(arguments)
+    elsif search?
+      app.display_search(arguments)
+    elsif delete?
+      app.display_delete(arguments)
+    elsif clear?
+      puts "This will remove all expenses. Are you sure? (y/n)"
+      response = $stdin.getch
+      app.delete_all_expenses if response.match?(/y/i)
+    else
+      app.display_help
+    end
+  end
+
+  def parse_argv
+    self.command = @argv[0]
+    self.arguments = @argv[1..-1]
+  end
+
+  def list?
+    command.match?(/list/i)
+  end
+
+  def add?
+    command.match?(/add/i)
+  end
+
+  def search?
+    command.match?(/search/i)
+  end
+
+  def delete?
+    command.match?(/delete/i)
+  end
+
+  def clear?
+    command.match?(/clear/i)
+  end
+
+  private
+
+  attr_accessor :app, :argv, :command, :arguments
+
+end
+
+class ExpenseData
+
+  def initialize
+    self.db = PG.connect(dbname: "expenses")
+  end
+
+  def display_help
+    msg = <<~MSG
+    An expense recording system
+
+    Commands:
+
+    add AMOUNT MEMO [DATE] - record a new expense
+    clear - delete all expenses
+    list - list all expenses
+    delete NUMBER - remove expense with id NUMBER
+    search QUERY - list expenses with a matching memo field
+    MSG
+
+    puts msg
+  end
+
+  def list_expenses
+    result = exec("SELECT * FROM expenses")
+    display(result)
+  end
+
+  def add_expense(arguments = [])
+    now = Time.now.to_s.split[0]
+    sql = "INSERT INTO expenses \
+           (created_on, amount, memo) VALUES \
+           ($1, $2, $3)" 
+    result = exec_params(sql, [now, arguments[0], arguments[1]])
+    list_expenses
+  end
+
+  def display_search(arguments = [])
+    sql = "SELECT * FROM expenses WHERE memo ILIKE $1"
+    pattern = ["%#{arguments[0]}%"] || []
+
+    result = exec_params(sql, pattern)
+    display(result)
+  end
+
+
+  def delete_expense(arguments = [])
+    id = [arguments[0]] || []
+    sql_search = "SELECT * FROM expenses WHERE id = $1"
+    sql_delete = "DELETE FROM expenses WHERE id = $1"
+
+    search_result = exec_params(sql_search, id)
+
+    if search_result.ntuples == 1
+      delete_result = exec_params(sql_delete, id)
+      puts "The following expense has been deleted"
+      display(search_result)
+    else
+      puts "There is no expense with the id '#{id[0]}'"
+    end
+
+  end
+
+  def delete_all_expenses
+    sql = "DELETE FROM expenses"
+    exec(sql)
+  end
+
+  def exec(query_str)
+    db.exec(query_str)
+  end
+
+  def exec_params(query_str, params)
+    db.exec_params(query_str, params)
+  end
+
+  private
+
+  attr_accessor :db
+
+  def display(result)
+    result.each do |tuple|
+      columns = [
+        tuple["id"].rjust(3),
+        tuple["created_on"].rjust(10),
+        tuple["amount"].rjust(12),
+        tuple["memo"]
+      ]
+      puts columns.join(" | ")
+    end
+  end
+
+end
+
+cli = CLI.new
+cli.run(ARGV)

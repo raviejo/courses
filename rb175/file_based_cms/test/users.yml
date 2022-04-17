@@ -1,0 +1,19 @@
+---
+admin: !ruby/string:BCrypt::Password
+  str: "$2a$12$2NBL6Od5ClHxoyE68cg08eLkffJoI74sv46o7Umvk2FIzgJgCgZo6"
+  version: 2a
+  cost: 12
+  salt: "$2a$12$2NBL6Od5ClHxoyE68cg08e"
+  checksum: LkffJoI74sv46o7Umvk2FIzgJgCgZo6
+bill: !ruby/string:BCrypt::Password
+  str: "$2a$12$Xs5S8hYLQz7hKAnxT24CR.xBhAQ1yxbNvJpRvhCqK2EExIWa.5dFq"
+  version: 2a
+  cost: 12
+  salt: "$2a$12$Xs5S8hYLQz7hKAnxT24CR."
+  checksum: xBhAQ1yxbNvJpRvhCqK2EExIWa.5dFq
+sonia: !ruby/string:BCrypt::Password
+  str: "$2a$12$yVbpXgI2fZ9GqutbfFENSOwDK.1zyIEQWWe5MIeBPG/M07j5Rl3n6"
+  version: 2a
+  cost: 12
+  salt: "$2a$12$yVbpXgI2fZ9GqutbfFENSO"
+  checksum: wDK.1zyIEQWWe5MIeBPG/M07j5Rl3n6

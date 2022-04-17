@@ -1,0 +1,65 @@
+<section id="retro-page">
+  <header>
+    <div class="logo">
+      <img src="/logo.png" alt="company logo" />
+    </div>
+    <div class="retroname">
+      <h3>A Cool Retro</h3>
+    </div>
+    <div class="username">
+      <p>Ricky V.</p>
+      <img src="/avatar.png" alt="account" />
+    </div>
+  </header>
+
+  <nav>
+    <div class="search">
+      <form action="/search" method="get">
+        <input type="text" placeholder="Set the content of the retro here..." />
+      </form>
+    </div>
+    <div class="sort">
+      <form action="/sort" method="get">
+        <button type="text">Sort by order</button>
+      </form>
+    </div>
+    <div class="add-item">
+      <form action="/add-item" method="get">
+        <button type="text">Add</button>
+      </form>
+    </div>
+  </nav>
+  <main>
+    <div class="card surveys">surveys</div>
+    <div class="card went-well">
+      <div class="header">
+        <p>Went Well</p>
+        <form class="section" action="add/went-well" method="post">
+          <button class="add" type="submit">+</button>
+        </form>
+      </div>
+      <div class="feedback">
+        <p>Nice work on back end by Charlie</p>
+        <form class="element" action="feedback/went-well" method="post">
+          <button class="vote" type="submit"><img src="upvote.png" /></button>
+        </form>
+      </div>
+    </div>
+    <div class="card to-improve">
+      <div class="header">
+        <p>To Improve</p>
+        <form class="section" action="add/to-improve" method="post">
+          <button class="add" type="submit">+</button>
+        </form>
+      </div>
+    </div>
+    <div class="card action-items">
+      <div class="header">
+        <p>Action Items</p>
+        <form class="section" action="add/action-items" method="post">
+          <button class="add" type="submit">+</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</section>
